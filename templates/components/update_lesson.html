@@ -15,26 +15,58 @@
         <!-- Header content... -->
     </header>
 
-    <!-- Update Lesson form -->
-    <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto px-4 py-8">
         <h2 class="text-2xl font-bold text-gray-900 mb-4">Update Lesson</h2>
-        <form  method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label for="class" class="block text-gray-700 font-bold mb-2">Class:</label>
+                <select id="class" name="class" class="border-2 border-gray-300 p-2 w-full">
+                    <!-- Generate class options from 1 to 10 -->
+                    {% for class_num in range(1, 11) %}
+                    <option value="{{ class_num }}">Class {{ class_num }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="section" class="block text-gray-700 font-bold mb-2">Section:</label>
+                <select id="section" name="section" class="border-2 border-gray-300 p-2 w-full">
+                    <!-- Options for sections A to E -->
+                    {% for section in 'ABCDE' %}
+                    <option value="{{ section }}">Section {{ section }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="subject" class="block text-gray-700 font-bold mb-2">Subject:</label>
+                <select id="subject" name="subject" class="border-2 border-gray-300 p-2 w-full">
+                    <option value="science">Science</option>
+                    <option value="social">Social</option>
+                    <option value="english">English</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="lesson_number" class="block text-gray-700 font-bold mb-2">Lesson Number:</label>
+                <select id="lesson_number" name="lesson_number" class="border-2 border-gray-300 p-2 w-full">
+                    <!-- Generate lesson numbers from 1 to 6 -->
+                    {% for number in range(1, 7) %}
+                    <option value="{{ number }}">Lesson {{ number }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
             <div class="mb-4">
                 <label for="lesson_file" class="block text-gray-700 font-bold mb-2">Lesson PDF:</label>
                 <input type="file" id="lesson_file" name="lesson_pdf" accept=".pdf" class="border-2 border-gray-300 p-2 w-full">
             </div>
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Upload Lesson</button>
+
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Upload Lesson
+            </button>
         </form>
-{% for category, questions in response.items() %}
-<div class="category mb-8">
-  <h2 class="text-xl font-bold mb-4">{{ category }}:</h2>
-  <div class="questions">
-    {% for question in questions %}
-    <div class="question">{{ loop.index }}. {{ question.stem }}: {{ question.question }}</div>
-    {% endfor %}
-  </div>
-</div>
-{% endfor %}
+    </div>
 
 
 

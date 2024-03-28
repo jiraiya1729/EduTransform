@@ -7,4 +7,6 @@ PyPDF2
 langchain_google_genai 
 generativeai
 python-dotenv
-chromadb
+supabase
+faiss
+faiss-gpu

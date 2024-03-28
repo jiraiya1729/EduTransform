@@ -1,0 +1,62 @@
+'output_text': '```\n[\n 
+ {\n    
+"question": "What is the process by which sound is produced?",\n    
+    "options": [\n     
+         "Vibration",\n      
+         "Reflection",\n      
+         "Refraction",\n      
+         "Diffraction"\n    ],\n    
+    "answer": "A",\n    
+    "level": "Remembering"\n  },\n  
+{\n   
+"question": "Which of the following is NOT a characteristic of sound waves?",\n    
+    "options": [\n      
+        "Frequency",\n      
+        "Amplitude",\n      
+        "Polarization",\n      
+        "Wavelength"\n    ],\n    
+    "answer": "C",\n    
+    "level": "Understanding"\n  },\n 
+{\n    
+"question": "How does the speed of sound in a medium depend on the medium\'s properties?",\n    
+    "options": [\n      
+        "It is directly proportional to the medium\'s density and inversely proportional to its elasticity.",\n      
+        "It is directly proportional to the medium\'s elasticity and inversely proportional to its density.",\n      
+        "It is independent of the medium\'s properties.",\n     
+        "It is inversely proportional to the medium\'s density and directly proportional to its elasticity."\n    ],\n    
+    "answer": "A",\n    
+    "level": "Applying"\n  },\n  
+    {\n    
+"question": "What is the relationship between the frequency and wavelength of a sound wave?",\n    
+    "options": [\n      
+        "They are directly proportional.",\n      
+        "They are inversely proportional.",\n      
+        "They are independent of each other.",\n       
+        "They are related by a constant factor."\n    ],\n    
+    "answer": "B",\n    
+    "level": "Analyzing"\n  },\n  
+    {\n    
+    "question": "Which of the following applications of ultrasound is NOT valid?",\n    
+        "options": [\n      
+            "Medical imaging",\n      
+            "Industrial cleaning",\n      
+            "Communication",\n      
+            "Flaw detection"\n    ],\n    
+        "answer": "C",\n    
+        "level": "Evaluating"\n  },\n
+{\n    
+    "question": "Design a device that can use ultrasound to measure the thickness of a material.",\n    
+        "options": [],\n    "answer": null,\n    "level": "Creating"\n  },\n 
+{\n
+    "question": "What is the audible range of human hearing?",\n    
+        "options": [\n      
+            "20 Hz - 20 kHz",\n      
+            "50 Hz - 15 kHz",\n      
+            "100 Hz - 10 kHz",\n      
+            "200 Hz - 5 kHz"\n    ],\n    
+        "answer": "A",\n    
+    "level": "Remembering"\n  },\n
+     {\n    
+    "question": "Explain how sound waves are produced by a vibrating object.",\n    "options": [],\n    "answer": null,\n    "level": "Understanding"\n  },\n
+      {\n    "question": "Apply the concept of resonance to explain how a tuning fork produces sound.",\n    "options": [],\n    "answer": null,\n    "level": "Applying"\n  },\
+      n  {\n    "question": "Analyze the factors that affect the speed of sound in a medium.",\n    "options": [],\n    "answer": null,\n    "level": "Analyzing"\n  },\n  {\n    "question": "Evaluate the advantages and disadvantages of using ultrasound for medical imaging.",\n    "options": [],\n    "answer": null,\n    "level": "Evaluating"\n  },\n  {\n    "question": "Propose a new application for ultrasound technology.",\n    "options": [],\n    "answer": null,\n    "level": "Creating"\n  }\n]\n```'

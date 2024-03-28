@@ -22,3 +22,23 @@ for collection in docs:
             user['collection']=collection.id
             
         print(user)
+        
+        
+#  sample format of output 
+    
+#         **Output:**
+#         [
+#             {
+#                 'question': 'Your question here',
+#                 'options': ['A. Option A', 'B. Option B', 'C. Option C', 'D. Option D'],
+#                 'answer': 'A',
+#                 'level': 'Remembering'
+#             },
+#             {
+#                 'question': 'Your question here',
+#                 'options': ['A. Option A', 'B. Option B', 'C. Option C', 'D. Option D'],
+#                 'answer': 'B',
+#                 'level': 'Understanding'
+#             },
+#             ... (more MCQs for other levels)
+#         ]

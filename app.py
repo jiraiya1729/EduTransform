@@ -9,6 +9,14 @@ from firebase_admin import storage
 import os
 from questiongeneration import get_pdf_text, get_text_chunks, get_vector_store, get_conversational_chain, user_input
 import json
+from supabase import create_client, Client
+from dotenv import load_dotenv
+
+load_dotenv()
+url = os.environ.get("SUPABASE_URL")
+key = os.environ.get("SUPABASE_KEY")
+
+supabase = create_client(url, key)
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  
@@ -49,7 +57,10 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(current_dir, 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 # Funtions 
+def getquestions():
+    data = supabase.table("questions").select("question, class").eq("subject", userdetails['subject']).execute()
 def reset():
     global userdetails, user
     userdetails= {}
@@ -81,7 +92,9 @@ def createquestions(path):
     raw_text = get_pdf_text(path)
     text_chunks = get_text_chunks(raw_text)
     get_vector_store(text_chunks)
-    response = user_input()
+    #subjective questions-1 
+    # mcqs - 0
+    response = user_input(0)
     return response
     
 def createstudentaccount(file_path):
@@ -352,17 +365,32 @@ def workflow():
 
 @app.route('/update_lesson', methods=['POST', 'GET'])
 def update_lesson():
-    response_text = ''
+    
     if request.method == 'POST':
+        
+        # print(request.form)
+        classname = request.form['class']
+        # section = request.form['section']
+        subject = request.form['subject']
+        lesson_number = request.form['lesson_number']
+        
         if 'lesson_pdf' in request.files:
             lesson = request.files['lesson_pdf']
+        
             file_path_lesson = os.path.join(app.config['UPLOAD_FOLDER'], 'lesson.pdf')
             lesson.save(file_path_lesson)
             response = createquestions(file_path_lesson)
-            response_text = response['output_text']
-            
-            response_text = json.loads(response_text)
-    return render_template('components/update_lesson.html', response=response)
+            print(f"updated mcq type questions are:- {response}")
+            # response_text=json.loads(response['output_text'])
+            # print(response_text['Remembering'])
+            # for topic in response_text:
+            #     for question in response_text[topic]:
+            #         pass
+                    # data = supabase.table("descriptive").insert({'class':classname, 'subject': subject, 'lesson': lesson_number, 'bloom_taxonomy_tag': topic, 'question': question}).execute()
+
+                
+            # response_text = json.loads(response_text)
+    return render_template('components/update_lesson.html')
 
 
 if __name__ == '__main__':
