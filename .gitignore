@@ -1,4 +1,5 @@
-education
-faiss_index
+education/
+faiss_index/
+
 test.py
 check.py
