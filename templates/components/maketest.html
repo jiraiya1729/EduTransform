@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-bold text-center text-indigo-600 mb-8">Create Test</h1>
+
+        <form  method="POST" class="flex flex-col items-center">
+            <div class="flex justify-center mb-4">
+                <div class="mr-4">
+                    <label for="class-input" class="block text-gray-700 font-bold mb-2">Class:</label>
+                    <select id="class-input" name="class" class="bg-white border border-gray-400 rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div class="mr-4">
+                    <label for="section-input" class="block text-gray-700 font-bold mb-2">Section:</label>
+                    <select id="section-input" name="section" class="bg-white border border-gray-400 rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                </div>
+
+                <div class="mr-4">
+                    <label for="subject-input" class="block text-gray-700 font-bold mb-2">Subject:</label>
+                    <select id="subject-input" name="subject" class="bg-white border border-gray-400 rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500">
+                        <option value="Science">Science</option>
+                        <option value="English">English</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="lesson-input" class="block text-gray-700 font-bold mb-2">Lesson:</label>
+                    <select id="lesson-input" name="lesson" class="bg-white border border-gray-400 rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-center">
+                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">Create Test</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

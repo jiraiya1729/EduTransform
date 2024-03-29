@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Question Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css');
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen flex justify-center items-center">
+    <div class="bg-violet-900 p-8 rounded-lg shadow-md max-w-4xl">
+        <button id="take-test-button" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded">Take Test</button>
+        <div id="question-container" class="mt-6 hidden py-8">
+            <div class="flex justify-center mb-4">
+                <div id="question-slider" class="flex space-x-2"></div>
+            </div>
+            <p id="question-number" class="text-lg font-bold text-white"></p>
+            <div class="bg-violet-800 p-4 rounded-lg mb-4">
+                <p id="question" class="text-base text-white"></p>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="option1" name="options" value="option1" class="mr-2 form-radio text-violet-600">
+                    <label for="option1" id="option1-label" class="text-base text-white"></label>
+                </div>
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="option2" name="options" value="option2" class="mr-2 form-radio text-violet-600">
+                    <label for="option2" id="option2-label" class="text-base text-white"></label>
+                </div>
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="option3" name="options" value="option3" class="mr-2 form-radio text-violet-600">
+                    <label for="option3" id="option3-label" class="text-base text-white"></label>
+                </div>
+                <div class="flex items-center mb-2">
+                    <input type="radio" id="option4" name="options" value="option4" class="mr-2 form-radio text-violet-600">
+                    <label for="option4" id="option4-label" class="text-base text-white"></label>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-between">
+                <button id="prev-button" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 px-4 rounded" disabled>Previous</button>
+                <div>
+                    <button id="next-button" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded">Next</button>
+                    <button id="submit-button" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded hidden">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div id="responses-container" class="mt-6 hidden">
+            <h2 class="text-lg font-bold text-white">Responses:</h2>
+            <ul id="responses-list" class="list-disc pl-4 mt-2 text-white"></ul>
+            <div id="take-another-test-container" class="mt-4 hidden">
+                <a href="/tests" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded">Take Another Test</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample questions data (replace this with actual data from Flask)
+        var questions = {{ response | tojson | safe }};
+
+        // Array to store user responses
+        var userResponses = [];
+
+        // Variable to keep track of the current question index
+        var currentQuestionIndex = 0;
+
+        // Function to create the question slider
+        function createQuestionSlider() {
+            var questionSlider = document.getElementById('question-slider');
+            questionSlider.innerHTML = ''; // Clear previous slider
+
+            for (var i = 0; i < questions.length; i++) {
+                var sliderItem = document.createElement('div');
+                sliderItem.classList.add('w-8', 'h-8', 'rounded-full', 'flex', 'items-center', 'justify-center', 'cursor-pointer', 'border-2', 'border-violet-900');
+                sliderItem.textContent = i + 1;
+                sliderItem.addEventListener('click', function(e) {
+                    var index = parseInt(e.target.textContent) - 1;
+                    navigateToQuestion(index);
+                });
+
+                if (userResponses[i] === undefined) {
+                    sliderItem.classList.add('bg-white', 'text-violet-900');
+                } else if (userResponses[i] === null) {
+                    sliderItem.classList.add('bg-red-600', 'text-white');
+                } else {
+                    sliderItem.classList.add('bg-green-600', 'text-white');
+                }
+
+                questionSlider.appendChild(sliderItem);
+            }
+        }
+
+        // Function to navigate to a specific question
+        function navigateToQuestion(index) {
+            currentQuestionIndex = index;
+            displayQuestion();
+        }
+
+        // Function to display the current question
+        function displayQuestion() {
+            var radioButtons = document.querySelectorAll('input[type=radio][name=options]');
+            radioButtons.forEach(function(radio) {
+                radio.checked = false;
+            });
+            var questionNumber = currentQuestionIndex + 1;
+            document.getElementById('question-number').textContent = "Question " + questionNumber + ":";
+            document.getElementById('question').textContent = questions[currentQuestionIndex]['question'];
+            document.getElementById('option1-label').textContent = questions[currentQuestionIndex]['option 1'];
+            document.getElementById('option2-label').textContent = questions[currentQuestionIndex]['option 2'];
+            document.getElementById('option3-label').textContent = questions[currentQuestionIndex]['option 3'];
+            document.getElementById('option4-label').textContent = questions[currentQuestionIndex]['option 4'];
+
+            // If there is a previous response for this question, set the corresponding radio button checked
+            if (userResponses[currentQuestionIndex] !== undefined) {
+                document.getElementById(userResponses[currentQuestionIndex]).checked = true;
+            }
+
+            // Enable/disable the previous button based on the current question index
+            document.getElementById('prev-button').disabled = (currentQuestionIndex === 0);
+
+            // Show the "Submit" button on the last question
+            var submitButton = document.getElementById('submit-button');
+            if (currentQuestionIndex === questions.length - 1) {
+                submitButton.classList.remove('hidden');
+                document.getElementById('next-button').classList.add('hidden');
+            } else {
+                submitButton.classList.add('hidden');
+                document.getElementById('next-button').classList.remove('hidden');
+            }
+
+            // Update the question slider
+            createQuestionSlider();
+        }
+
+        // Function to handle the button click event for "Take Test" button
+        document.getElementById('take-test-button').addEventListener('click', function() {
+            // Hide the "Take Test" button
+            document.getElementById('take-test-button').classList.add('hidden');
+            // Display the question container
+            document.getElementById('question-container').classList.remove('hidden');
+            // Display the first question
+            displayQuestion();
+        });
+
+        // Function to handle the button click event for "Previous" button
+        document.getElementById('prev-button').addEventListener('click', function() {
+            // Decrement the current question index
+            currentQuestionIndex--;
+
+            // Display the previous question
+            displayQuestion();
+        });
+
+        // Function to handle the button click event for "Next" button
+        document.getElementById('next-button').addEventListener('click', function() {
+            // Save user response
+            var selectedOption = document.querySelector('input[name="options"]:checked');
+            if (selectedOption) {
+                userResponses[currentQuestionIndex] = selectedOption.id;
+            }
+
+            // Increment the current question index
+            currentQuestionIndex++;
+
+            // Display the next question
+            displayQuestion();
+        });
+
+        // Function to handle the button click event for "Submit" button
+        document.getElementById('submit-button').addEventListener('click', function() {
+            // Save the last user response
+            var selectedOption = document.querySelector('input[name="options"]:checked');
+            if (selectedOption) {
+                userResponses[currentQuestionIndex] = selectedOption.id;
+            }
+
+            // Display responses
+            displayResponses();
+        });
+
+        // Function to display user responses
+        function displayResponses() {
+            // Hide the question container
+            document.getElementById('question-container').classList.add('hidden');
+            // Display the responses container
+            document.getElementById('responses-container').classList.remove('hidden');
+            var responsesList = document.getElementById('responses-list');
+            responsesList.innerHTML = ''; // Clear previous responses
+
+            // Loop through user responses and display them
+            for (var i = 0; i < userResponses.length; i++) {
+                var listItem = document.createElement('li');
+                var questionNumber = i + 1;
+                var userResponse = userResponses[i];
+                var correctAnswer = questions[i]['answer'];
+                var isCorrect = userResponse === correctAnswer;
+
+                var responseText = "Question " + questionNumber + ": ";
+                if (userResponse) {
+                    responseText += questions[i]['option ' + userResponse.split('option')[1]];
+                } else {
+                    responseText += 'No response';
+                }
+
+                if (isCorrect) {
+                    responseText += " (Correct)";
+                } else {
+                    responseText += " (Incorrect)";
+                }
+
+                listItem.textContent = responseText;
+                responsesList.appendChild(listItem);
+
+                var explanationItem = document.createElement('p');
+                explanationItem.textContent = "Explanation: " + questions[i]['explanation'];
+                explanationItem.classList.add('text-sm', 'text-gray-400', 'mt-2');
+                responsesList.appendChild(explanationItem);
+            }
+
+            const finalScore = calculateScore();
+
+            // Create a score display element
+            var scoreDisplay = document.createElement('p');
+            scoreDisplay.textContent = "Final Score: " + finalScore + "/" + questions.length;
+            scoreDisplay.classList.add('text-lg', 'font-bold', 'text-white', 'mt-4');
+            responsesList.appendChild(scoreDisplay);
+
+            // Show the "Take Another Test" button
+            document.getElementById('take-another-test-container').classList.remove('hidden');
+
+            sendScoreToServer(finalScore);
+        }
+
+        function calculateScore() {
+            let score = 0;
+            for (let i = 0; i < userResponses.length; i++) {
+                if (userResponses[i] === questions[i]['answer']) {
+                    score++;
+                }
+            }
+            return score;
+        }
+
+// Function to send the final score to the Flask server
+function sendScoreToServer(score) {
+    const url = `/taketest?subject=${encodeURIComponent(subject)}&lesson=${encodeURIComponent(lesson)}`;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ score: score })
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Score submitted successfully');
+        } else {
+            console.error('Error submitting score');
+        }
+    })
+    .catch(error => {
+        console.error('Error submitting score:', error);
+    });
+}
+    </script>
+</body>
+</html>

@@ -11,6 +11,13 @@ from questiongeneration import get_pdf_text, get_text_chunks, get_vector_store, 
 import json
 from supabase import create_client, Client
 from dotenv import load_dotenv
+from studenttest import retrivequestions
+from flask import jsonify
+from datetime import datetime
+# from studenttest import getmytests
+import re
+
+
 
 load_dotenv()
 url = os.environ.get("SUPABASE_URL")
@@ -50,6 +57,7 @@ user = {
     'docid': '',
     
 }
+truetestkeys = []
 userdetails = {}
 
 # path for saving the files 
@@ -59,6 +67,31 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 # Funtions 
+def getmytests():
+    print(f"get my  tests {userdetails}")
+
+    user_class = userdetails['class']
+    user_section = userdetails['section']
+    # Regular expression to extract class, section, subject, and lesson from true_keys
+    key_regex = r'(\d+)-(\w+)-(\w+)-(\d+)'
+    
+    tests = []
+    
+    for key in truetestkeys:
+        match = re.match(key_regex, key)
+        print(f" in getmytests function {key_regex}, {key}, {match}")
+        if match:
+            matched_class = match.group(1)
+            matched_section = match.group(2)
+            matched_subject = match.group(3)
+            matched_lesson = match.group(4)
+            print(matched_class, matched_section)
+            if matched_class == user_class and matched_section == user_section:
+                tests.append((matched_subject, matched_lesson))
+    
+    print(f"in the get my tests {tests}")
+    return tests
+    
 def getquestions():
     data = supabase.table("questions").select("question, class").eq("subject", userdetails['subject']).execute()
 def reset():
@@ -69,6 +102,18 @@ def reset():
     'docid': '',
     
 }
+def gettestdetails():
+    global truetestkeys
+    doc_ref = db.collection(user['collection']).document("test")
+    doc = doc_ref.get().to_dict()
+    if doc:
+        for key, value in doc.items():
+            if value is True:
+                truetestkeys.append(key)
+    print(f"getting test in fucntion {truetestkeys}")
+    return truetestkeys
+
+    
 
 def createaccount(name, email, password, organization):
     data = {
@@ -198,6 +243,13 @@ def createadminaccount(file_path):
             
 #     print("added succesfully")
   
+def createtest(collection, classname, section, subject, lesson):
+    print(collection)
+    
+    collection_ref = db.collection(collection).document("test")
+    testid = f"{classname}-{section}-{subject}-{lesson}"
+    collection_ref.update({testid: True})
+    
 
     
 def get_profile(collection,docid):
@@ -241,7 +293,7 @@ def get_docid(email):
             
             
 
-    
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -291,6 +343,7 @@ def login():
                     if userdetails['role'] == 'teacher':
                         return redirect(url_for('teacher', docid=user['docid']))
                     elif userdetails['role'] == 'student':
+                        gettestdetails()
                         return redirect(url_for('student', docid = user['docid']))
                     elif userdetails['role'] == 'admin':
                         return redirect(url_for('admin', docid = user['docid']))
@@ -392,6 +445,59 @@ def update_lesson():
             # response_text = json.loads(response_text)
     return render_template('components/update_lesson.html')
 
+@app.route('/taketest', methods=['POST', 'GET'])
+def taketest():
+    subject = request.args.get('subject')
+    lesson = request.args.get('lesson')
+    classname = request.args.get('classname')
+    print(f" take test printing {subject}, {classname}, {lesson}")
+    score = 0
+    if request.method == 'POST':
+        score_data = request.get_json()
+        score = score_data.get('score')
+        if score_data and score:
+            print(f'Received score: {score} for subject: {subject} in lesson: {lesson}')
+    
+        return jsonify({'message': 'Score received successfully'})
+    # if score:
+    #     print(f"{score} trying to send to db")
+    #     testid = f"{subject}-{lesson}"
+    #     testidscore = f"{subject}-{lesson}-{score}"
+    #     db.collection(user['collection'].document[user['docid']].update({testid: True}))
+    #     db.collection(user['collection'].document[user['docid']].update({testidscore: score}))
+
+    response = retrivequestions(subject, classname, lesson)
+    if response:
+        return render_template('components/taketest.html', response=response[1])
+    return render_template('components/taketest.html')
+
+@app.route('/maketest', methods=['POST', 'GET'])
+def maketest():
+    if request.method == 'POST':
+        class_value = request.form['class']
+        section_value = request.form['section']
+        subject_value = request.form['subject']
+        lesson_value = request.form['lesson']
+        print(user['collection'])
+        createtest(user['collection'],class_value, section_value, subject_value, lesson_value)
+    return render_template('components/maketest.html')
+
+
+@app.route('/tests',methods=['POST', 'GET'])
+def testpage():
+    print(userdetails)
+    test = getmytests()
+    # print(test)
+    classname = userdetails['class']
+    return render_template('components/testpage.html', tests=test, classname=classname)
+
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    subject = request.args.get('subject')
+    lesson = request.args.get('lesson')
+    classname = request.args.get('classname')
+    print(f" in the test page {subject}, {lesson}")
+    return render_template('components/test.html',  subject=subject, lesson=lesson, classname=classname)
 
 if __name__ == '__main__':
     app.run(debug=True)
