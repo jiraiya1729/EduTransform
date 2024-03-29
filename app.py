@@ -491,13 +491,7 @@ def testpage():
     classname = userdetails['class']
     return render_template('components/testpage.html', tests=test, classname=classname)
 
-@app.route('/test', methods=['GET', 'POST'])
-def test():
-    subject = request.args.get('subject')
-    lesson = request.args.get('lesson')
-    classname = request.args.get('classname')
-    print(f" in the test page {subject}, {lesson}")
-    return render_template('components/test.html',  subject=subject, lesson=lesson, classname=classname)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
