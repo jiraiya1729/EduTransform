@@ -72,8 +72,8 @@ def get_conversational_chain_mcq():
         - 'answer': The correct answer option (e.g., 'A')
         - 'level': The corresponding Bloom's Taxonomy level (e.g., 'Remembering', 'Understanding', etc.)
         **Important note:- my output should not contain input document and for each level (remembering, understanding, analyzing, creating, evaluating,applying) generate minimum of 6 questions maximum of 8 questions**
-    
 
+        
     Question:{question}
         
     Answer:""

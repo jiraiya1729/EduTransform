@@ -36,8 +36,7 @@ def retrivequestions(subject, classname, lessonname):
     return data
     # print(data[1][9]['question'])
     
-
-
+retrivequestions("science", 8, 2)
 # from datetime import datetime
 # city_ref = db.collection("vnr vignana jyothi test").document("data")
 # data = {
