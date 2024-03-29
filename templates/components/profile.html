@@ -4,18 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: "Montserrat", sans-serif;
+            font-weight: 500;
+        }
+
+        .nav-link-violet {
+            color: #7c3aed; /* Violet link color */
+        }
+
+        .nav-link-violet:hover {
+            color: #6d28d9; /* Darker violet on hover */
+        }
+
+        .btn-violet {
+            background-color: #7c3aed; /* Violet button background color */
+            color: #fff; /* White text color */
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-violet:hover {
+            background-color: #6d28d9; /* Darker violet on hover */
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-black">
 
 <!-- Navigation Bar -->
-<nav class="bg-white shadow">
+<nav class="bg-black shadow">
     <div class="max-w-6xl mx-auto px-4">
         <div class="flex justify-between">
             <div class="flex space-x-4">
                 <!-- Logo -->
                 <div>
-                    <a href="/logged" class="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900">
+                    <a href="{% if user_details.role == 'admin' %}/admin/{{ docid }}{% elif user_details.role == 'student' %}/student/{{ docid }}{% else %}/teacher/{{ docid }}{% endif %}" class="flex items-center py-5 px-2">
                         <!-- Logo and other elements -->
                         <span class="font-bold">Dashboard</span>
                     </a>
@@ -27,10 +56,10 @@
             </div>
             <!-- Profile icon and Logout Button -->
             <div class="flex items-center space-x-1">
-                <a href="/profile" class="py-2 px-3">
+                <a href="/profile" class="py-2 px-3 nav-link-violet hover:text-white-900">
                     <!-- Profile Icon SVG or Image -->
                 </a>
-                <a href="/logout" class="py-2 px-3 bg-red-500 text-white rounded hover:bg-red-600">Logout</a>
+                <a href="/logout" class="py-2 px-3 btn-violet rounded hover:bg-violet-600">Logout</a>
             </div>
         </div>
     </div>
@@ -38,13 +67,13 @@
 
 <!-- Profile Content -->
 <div class="container mx-auto px-4 py-6">
-    <h1 class="text-xl font-bold text-gray-800">User Profile</h1>
+    <h1 class="text-xl font-bold text-white-800">User Profile</h1>
     <!-- Display user details -->
     <div class="grid grid-cols-2 gap-y-2">
         {% for key, value in user_details.items() %}
             {% if key != 'password' %}
-                <p class="font-medium text-gray-700">{{ key.capitalize() }}:</p>
-                <p class="text-sm text-gray-900">{{ value }}</p>
+                <p class="font-medium text-white-700">{{ key.capitalize() }}:</p>
+                <p class="text-sm text-white-900">{{ value }}</p>
             {% endif %}
         {% endfor %}
     </div>

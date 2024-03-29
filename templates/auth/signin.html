@@ -4,37 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 500;
+            background-color: black; /* Dark background color */
+        }
+
+        .page-container {
+            background-color: black;
+        }
+
+        .page-heading {
+            color: #fff; /* White text color */
+        }
+
+        .input-field {
+            background-color: black;
+            color: white;
+        }
+
+        .input-field:focus {
+            outline: none; /* Remove focus outline */
+            border-color: #9f7aea; /* Focus border color */
+        }
+
+        .submit-button {
+            background-color: #7c3aed; /* Violet button background color */
+        }
+
+        .submit-button:hover {
+            background-color: #7c3aed;; /* Darker violet on hover */
+        }
+
+        .login-link {
+            color: #7c3aed; /* Violet link color */
+        }
+
+        .login-link:hover {
+            color: #7c3aed; /* Darker violet on hover */
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-96">
-        <h1 class="text-2xl font-bold mb-4">Sign Up</h1>
-        <form  method="POST">
+<body class="flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-96 page-container">
+        <h1 class="text-2xl font-bold mb-4 page-heading">Sign Up</h1>
+        <form method="POST">
             <div class="mb-4">
-                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
-                <input type="text" name="name" id="name" placeholder="Your Full Name" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name</label>
+                <input type="text" name="name" id="name" placeholder="Your Full Name" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline input-field">
             </div>
             <div class="mb-4">
-                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                <input type="email" name="email" id="email" placeholder="you@example.com" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
+                <input type="email" name="email" id="email" placeholder="you@example.com" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline input-field">
             </div>
             <div class="mb-4">
-                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                <input type="password" name="password" id="password" placeholder="Create a password" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="password" class="block text-gray-300 text-sm font-bold mb-2">Password</label>
+                <input type="password" name="password" id="password" placeholder="Create a password" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 mb-3 leading-tight focus:outline-none focus:shadow-outline input-field">
             </div>
             <div class="mb-4">
-                <label for="Organization" class="block text-gray-700 text-sm font-bold mb-2">Organization</label>
-                <input type="text" name="Organization" id="Organization" placeholder="Your Organization" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="Organization" class="block text-gray-300 text-sm font-bold mb-2">Organization</label>
+                <input type="text" name="Organization" id="Organization" placeholder="Your Organization" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline input-field">
             </div>
             
             <div class="flex items-center justify-between">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <button type="submit" class="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline submit-button">
                     Sign Up
                 </button>
             </div>
         </form>
         <div class="mt-6 text-center">
-            <p class="text-sm">Already have an account? <a href="/login" class="text-blue-500 hover:text-blue-700">Login</a></p>
+            <p class="text-sm text-white">Already have an account? <a href="/login" class="text-sm login-link">Login</a></p>
         </div>
     </div>
 </body>
