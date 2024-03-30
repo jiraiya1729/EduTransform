@@ -67,7 +67,8 @@ def get_conversational_chain_mcq():
         - Sample question stems: Design, Construct, Develop, Formulate, Propose, etc.
 
        
-        **Important note:- for each level creatte minimum of 6 questions
+        **Important note:- for each level create maximum of 2 questions only (strictly)
+        
         output format :- 
         an array of 
             -bloom taxonomy tag

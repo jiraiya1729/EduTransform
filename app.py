@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from studenttest import retrivequestions
 from flask import jsonify
 from datetime import datetime
+import ast 
 # from studenttest import getmytests
 import re
 remembering = {
@@ -173,43 +174,44 @@ def createaccount(name, email, password, organization):
         return "error"
     
     
-def createquestions(path,classname, subject, lesson_number):
+def createquestions(path, classname, subject, lesson_number):
     raw_text = get_pdf_text(path)
     text_chunks = get_text_chunks(raw_text)
     get_vector_store(text_chunks)
-    #subjective questions-1 
-    # mcqs - 0
-    response_mcq = user_input(0)
-    print(response_mcq)
-    response_mcq = eval(str(response_mcq['output_text']+' "}] '))
-    print(response_mcq)
 
+    # Subjective questions - 1
+    # MCQs - 0
+    response_mcq = user_input(0)
+
+    # Split the response string into individual JSON objects
+    json_objects = ast.literal_eval(response_mcq['output_text'])
     
-    for dictionary in response_mcq:
+    for dictionary in json_objects:
         for key, value in dictionary.items():
             if value == "null":
-                dictionary[key] = None
-    
-    # print(response_mcq[2])
-    for question in response_mcq:
-        print(question)
-        data = []
-        
+                dictionary[key] = None  
+
+
+
+    data = []
+    for question in json_objects:
         data.append({
-                'class': classname,
-                'subject': subject,
-                'lesson': lesson_number,
-                'bloom_taxonomy_tag': question['bloom_taxonomy_tag'] if 'bloom_taxonomy_tag' in question else None,
-                'question': question['question'] if 'question' in question else None,
-                'option 1': question['option1'] if 'option1' in question else None,
-                'option 2': question['option2'] if 'option2' in question else None,
-                'option 3': question['option3'] if 'option3' in question else None,
-                'option 4': question['option4'] if 'option4' in question else None,
-                'answer': question['answer'] if 'answer' in question else None,
-                'explanation': question['explanation'] if 'explanation' in question else None
-            })
-        res = supabase.table('mcq_questions').insert(data).execute()
-        print("insertion done")
+            'class': classname,
+            'subject': subject,
+            'lesson': lesson_number,
+            'bloom_taxonomy_tag': question['bloom_taxonomy_tag'] if 'bloom_taxonomy_tag' in question else None,
+            'question': question['question'] if 'question' in question else None,
+            'option1': question['option1'] if 'option1' in question else None,
+            'option2': question['option2'] if 'option2' in question else None,
+            'option3': question['option3'] if 'option3' in question else None,
+            'option4': question['option4'] if 'option4' in question else None,
+            'answer': question['answer'] if 'answer' in question else None,
+            'explanation': question['explanation'] if 'explanation' in question else None
+        })
+
+    res = supabase.table('mcq_questions').insert(data).execute()
+    print(res)
+    print("Insertion done")
 
         
     
