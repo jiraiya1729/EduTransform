@@ -26,17 +26,18 @@ supabase = create_client(url, key)
 
 def retrivequestions(subject, classname, lessonname):
     conditions = {
-        'subject': subject,
+        'subject': subject.lower(),
         'class': classname,
         'lesson': lessonname
     }
     columns = ['question', 'option1', 'option2', 'option3', 'option4', 'answer']
     data, count = supabase.table('mcq_questions').select('*').match(conditions).execute()
+    print(len(data))
     print(data)
     return data
     # print(data[1][9]['question'])
     
-retrivequestions("science", 8, 2)
+# retrivequestions("science", 8, 2)
 # from datetime import datetime
 # city_ref = db.collection("vnr vignana jyothi test").document("data")
 # data = {

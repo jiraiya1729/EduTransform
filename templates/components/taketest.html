@@ -242,7 +242,10 @@
 
 // Function to send the final score to the Flask server
 function sendScoreToServer(score) {
+    const subject = questions[currentQuestionIndex]['subject'];
+    const lesson = questions[currentQuestionIndex]['lesson'];
     const url = `/taketest?subject=${encodeURIComponent(subject)}&lesson=${encodeURIComponent(lesson)}`;
+
     fetch(url, {
         method: 'POST',
         headers: {

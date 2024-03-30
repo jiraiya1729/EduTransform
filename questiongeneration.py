@@ -66,12 +66,20 @@ def get_conversational_chain_mcq():
         - Ask questions that require generating new ideas, products, or ways of viewing things based on the context.
         - Sample question stems: Design, Construct, Develop, Formulate, Propose, etc.
 
-        Your output should be a list of dictionaries, where each dictionary represents a single MCQ with the following keys:
-        - 'question': The MCQ question
-        - 'options': A list of four answer options (A, B, C, D)
-        - 'answer': The correct answer option (e.g., 'A')
-        - 'level': The corresponding Bloom's Taxonomy level (e.g., 'Remembering', 'Understanding', etc.)
-        **Important note:- my output should not contain input document and for each level (remembering, understanding, analyzing, creating, evaluating,applying) generate minimum of 6 questions maximum of 8 questions**
+       
+        **Important note:- for each level creatte minimum of 6 questions
+        output format :- 
+        an array of 
+            -bloom taxonomy tag
+            -question
+            -option 1
+            -option 2
+            -option 3
+            -option 4 
+            -answer(option name like option1, option2, option3, option4)
+            -explanation
+            give in list of objects format and give the closing tag for the list (mandatory) 
+            
 
         
     Question:{question}

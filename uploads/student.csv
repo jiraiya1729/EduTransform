@@ -1,4 +1,11 @@
-Name,Email,Class,Section
-Varun,Varunchowdary1729@gmail.com,8,A
-Abhinav ,Abhinav@gmail.com,9,A
-pranav ,Pranav@gmail.com,10,A
+name,class,section,email,parentmail
+student1,1,a,student1@gmail.com,parent1@gmail.com
+student2,2,a,student2@gmail.com,parent2@gmail.com
+student3,3,a,student3@gmail.com,parent3@gmail.com
+student4,4,a,student4@gmail.com,parent4@gmail.com
+student5,5,a,student5@gmail.com,parent5@gmail.com
+student6,6,a,student6@gmail.com,parent6@gmail.com
+student7,7,a,student7@gmail.com,parent7@gmail.com
+student8,8,a,student8@gmail.com,parent8@gmail.com
+student9,9,a,student9@gmail.com,parent9@gmail.com
+student10,10,a,student10@gmail.com,parent10@gmail.com

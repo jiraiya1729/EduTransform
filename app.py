@@ -16,7 +16,36 @@ from flask import jsonify
 from datetime import datetime
 # from studenttest import getmytests
 import re
-
+remembering = {
+    'elie': 1,
+    'medium':2,
+    'low':3
+}
+understanding = {
+    'elie': 1,
+    'medium':2,
+    'low':2
+}
+applying = {
+    'elie': 1,
+    'medium':2,
+    'low':1
+}
+analyzing = {
+    'elie': 2,
+    'medium':1,
+    'low':3
+}
+evaluating = {
+    'elie': 2,
+    'medium':1,
+    'low':0
+}
+creating = {
+    'elie': 3,
+    'medium':1,
+    'low':0
+}
 
 
 load_dotenv()
@@ -67,6 +96,17 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 # Funtions 
+def getdata():
+    org = db.collection(user['collection'])
+    students = org.where('role', '==', 'student').stream()
+    teachers = org.where('role', '==', 'teacher').stream()
+    teachers_list, students_list = [], []
+    for doc in students:
+            students_list.append(doc.to_dict())
+    for doc in teachers:
+            teachers_list.append(doc.to_dict())
+    print(students_list, teachers_list)
+    
 def getmytests():
     print(f"get my  tests {userdetails}")
 
@@ -133,30 +173,66 @@ def createaccount(name, email, password, organization):
         return "error"
     
     
-def createquestions(path):
+def createquestions(path,classname, subject, lesson_number):
     raw_text = get_pdf_text(path)
     text_chunks = get_text_chunks(raw_text)
     get_vector_store(text_chunks)
     #subjective questions-1 
     # mcqs - 0
-    response = user_input(0)
-    return response
+    response_mcq = user_input(0)
+    print(response_mcq)
+    response_mcq = eval(str(response_mcq['output_text']+' "}] '))
+    print(response_mcq)
+
+    
+    for dictionary in response_mcq:
+        for key, value in dictionary.items():
+            if value == "null":
+                dictionary[key] = None
+    
+    # print(response_mcq[2])
+    for question in response_mcq:
+        print(question)
+        data = []
+        
+        data.append({
+                'class': classname,
+                'subject': subject,
+                'lesson': lesson_number,
+                'bloom_taxonomy_tag': question['bloom_taxonomy_tag'] if 'bloom_taxonomy_tag' in question else None,
+                'question': question['question'] if 'question' in question else None,
+                'option 1': question['option1'] if 'option1' in question else None,
+                'option 2': question['option2'] if 'option2' in question else None,
+                'option 3': question['option3'] if 'option3' in question else None,
+                'option 4': question['option4'] if 'option4' in question else None,
+                'answer': question['answer'] if 'answer' in question else None,
+                'explanation': question['explanation'] if 'explanation' in question else None
+            })
+        res = supabase.table('mcq_questions').insert(data).execute()
+        print("insertion done")
+
+        
+    
+    return response_mcq
     
 def createstudentaccount(file_path):
     print("entered createstudentaccount function")
     with open(file_path, 'r') as csvfile:
         csv_reader = csv.DictReader(csvfile)
         for row in csv_reader:
-            name = row['Name']
-            email = row['Email']
-            class_name = row['Class']
-            section = row['Section']
+            print(row)
+            name = row['name']
+            email = row['email']
+            class_name = row['class']
+            section = row['section']
+            parentmail = row['parentmail']
             
             data = {
                 'name': name,
                 'email': email,
                 'class': class_name,
                 'section': section,
+                'parentmail': parentmail,
                 'role': 'student'
             }
             studentpassword=123456
@@ -261,7 +337,7 @@ def get_profile(collection,docid):
     if doc.exists:
         userdetails = doc.to_dict()
     print(f"get profile function {userdetails}")
-        
+
         
     
 def get_docid(email):
@@ -373,6 +449,7 @@ def logout():
 @app.route('/profile', methods=['GET','POST'])
 def profile():
     user_details = userdetails
+    # getdata()
     print(user_details)
     return render_template('components/profile.html',user_details=user_details)
 
@@ -432,8 +509,8 @@ def update_lesson():
         
             file_path_lesson = os.path.join(app.config['UPLOAD_FOLDER'], 'lesson.pdf')
             lesson.save(file_path_lesson)
-            response = createquestions(file_path_lesson)
-            print(f"updated mcq type questions are:- {response}")
+            response = createquestions(file_path_lesson, classname, subject, lesson_number)
+            print(f"updated mcq type questions are:- {response['output_text']}")
             # response_text=json.loads(response['output_text'])
             # print(response_text['Remembering'])
             # for topic in response_text:
@@ -451,24 +528,28 @@ def taketest():
     lesson = request.args.get('lesson')
     classname = request.args.get('classname')
     print(f" take test printing {subject}, {classname}, {lesson}")
-    score = 0
+
     if request.method == 'POST':
+        print("entered request of score ")
         score_data = request.get_json()
         score = score_data.get('score')
         if score_data and score:
             print(f'Received score: {score} for subject: {subject} in lesson: {lesson}')
-    
-        return jsonify({'message': 'Score received successfully'})
-    # if score:
-    #     print(f"{score} trying to send to db")
-    #     testid = f"{subject}-{lesson}"
-    #     testidscore = f"{subject}-{lesson}-{score}"
-    #     db.collection(user['collection'].document[user['docid']].update({testid: True}))
-    #     db.collection(user['collection'].document[user['docid']].update({testidscore: score}))
+            print(user)
+            # Here, you can save the score to the database or perform any other necessary actions
+            test_id = f"{userdetails['class']}-{subject}-{lesson}"
+            test_id_score = f"{userdetails['class']}-{subject}-{lesson}-{score}"
+
+# Combine both updates into a single call
+            org = db.collection(user['collection']).document(user['docid'])
+            org.update({test_id: True,test_id_score: score})
+
+            return jsonify({'message': 'Score received successfully'})
 
     response = retrivequestions(subject, classname, lesson)
     if response:
         return render_template('components/taketest.html', response=response[1])
+
     return render_template('components/taketest.html')
 
 @app.route('/maketest', methods=['POST', 'GET'])
@@ -485,7 +566,7 @@ def maketest():
 
 @app.route('/tests',methods=['POST', 'GET'])
 def testpage():
-    print(userdetails)
+    # print(userdetails)
     test = getmytests()
     # print(test)
     classname = userdetails['class']
