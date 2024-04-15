@@ -12,12 +12,10 @@ EduTransform is a sophisticated computer vision-based system designed to enhance
 
 ## Tech Stack
 
-| **Student Satisfaction and Timetable Generator** | **Question Paper Generator** | **Frontend** | **Database** | **Backend** |
-|-----------------------------------------------|------------------------------|--------------|--------------|-------------|
-| TensorFlow                                     | GEMINI API                   | HTML         | FaissDB      | Flask       |
-| OpenCV                                        | Google Generative AI         | CSS          | Supabase     |             |
-|                                               | Langchain                    | Tailwind CSS | Firebase     |             |
-|                                               |                              | JavaScript   |              |             |
-
-
+| **Student Satisfaction and Timetable Generator**                              | **Question Paper Generator**                             | **Frontend**      | **Database**                                      | **Backend**                                      |
+|-------------------------------------------------------------------------------|-----------------------------------------------------------|-------------------|---------------------------------------------------|-------------------------------------------------|
+| [TensorFlow](https://www.tensorflow.org/)                                     | [GEMINI API](https://example.com/gemini-api-docs)        | HTML              | [FaissDB](https://example.com/faissdb-docs)       | [Flask](https://flask.palletsprojects.com/en/2.1.x/) |
+| [OpenCV](https://opencv.org/)                                                 | [Google Generative AI](https://example.com/generative-ai-docs) | CSS               | [Supabase](https://supabase.io/docs)             |                                                 |
+|                                                                               | [Langchain](https://example.com/langchain-docs)           | Tailwind CSS      | [Firebase](https://firebase.google.com/docs)      |                                                 |
+|                                                                               |                                                             | JavaScript        |                                                   |                                                 |
 
