@@ -9,3 +9,15 @@ EduTransform is a sophisticated computer vision-based system designed to enhance
 **Integration with Educational Management Systems**: Seamlessly integrates with existing educational management systems to incorporate student satisfaction ratings into timetables, optimizing class scheduling for enhanced learning experiences.
 
 **Personalized Learning Experience**: Generates tailored worksheets aligned with syllabi, personalized to students' individual needs based on their performance in previous assignments. Additionally, conducts fully proctored assignments based on Bloom’s Taxonomy, fostering a supportive learning ecosystem.
+
+## Tech Stack
+
+| **Student Satisfaction and Timetable Generator** | **Question Paper Generator** | **Frontend** | **Database** | **Backend** |
+|-----------------------------------------------|------------------------------|--------------|--------------|-------------|
+| TensorFlow                                     | GEMINI API                   | HTML         | FaissDB      | Flask       |
+| OpenCV                                        | Google Generative AI         | CSS          | Supabase     |             |
+|                                               | Langchain                    | Tailwind CSS | Firebase     |             |
+|                                               |                              | JavaScript   |              |             |
+
+
+
