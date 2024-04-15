@@ -44,7 +44,7 @@
             <div class="flex space-x-4">
                 <!-- Logo -->
                 <div>
-                    <a href="{% if user_details.role == 'admin' %}/admin/{{ docid }}{% elif user_details.role == 'student' %}/student/{{ docid }}{% else %}/teacher/{{ docid }}{% endif %}" class="flex items-center py-5 px-2">
+                    <a href="/logged" class="flex items-center py-5 px-2">
                         <!-- Logo and other elements -->
                         <span class="font-bold">Dashboard</span>
                     </a>
