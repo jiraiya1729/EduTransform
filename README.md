@@ -25,3 +25,8 @@ This project is the collaborative effort of our Team:
 | [OpenCV](https://opencv.org/)                   | Google Generative AI                  | CSS           | [Supabase](https://supabase.io/docs) |                                            |
 |                                                 | [Langchain](https://python.langchain.com/docs/get_started/introduction/) | Tailwind CSS | [Firebase](https://firebase.google.com/docs) |                                            |
 |                                                 |                                       | JavaScript    |                                      |                                            |
+
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
