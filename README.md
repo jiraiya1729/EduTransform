@@ -12,7 +12,7 @@ EduTransform is a sophisticated computer vision-based system designed to enhance
 - **Personalized Learning Experience**: Generates tailored worksheets aligned with syllabi, personalized to students' individual needs based on their performance in previous assignments. Additionally, conducts fully proctored assignments based on Bloom’s Taxonomy, fostering a supportive learning ecosystem.
 
 ## Team Members
-This project is the collaborative effort of:
+This project is the collaborative effort of our Team:
 - [Abhinav Gaddi](https://github.com/AbhiRox6?tab=repositories)
 - [Pranav Gaddi](https://github.com/Enyalius6)
 - [Vineeth Reddy Pachika](https://github.com/void4002)
